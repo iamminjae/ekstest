@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        ECR_REPO = '123456789012.dkr.ecr.ap-northeast-2.amazonaws.com/my-app'
+        ECR_REPO = '618465462717.dkr.ecr.ap-northeast-2.amazonaws.com/ekstest'
         IMAGE_TAG = "v${BUILD_NUMBER}"
     }
 
