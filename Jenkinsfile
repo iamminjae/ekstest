@@ -2,7 +2,9 @@ pipeline {
     agent any
 
     environment {
+        AWS_REGION = 'ap-northeast-2'
         ECR_REPO = '618465462717.dkr.ecr.ap-northeast-2.amazonaws.com/ekstest'
+        ECR_REPOSITORY = 'ekstest-app'
         IMAGE_TAG = "v${BUILD_NUMBER}"
     }
 
