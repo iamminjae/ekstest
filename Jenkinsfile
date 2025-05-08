@@ -58,19 +58,43 @@ pipeline {
             }
         }
 
+        // stage('Update Helm values.yaml') {
+        //     steps {
+        //         script {
+        //             def file = readFile 'charts/ekstest-app/values.yaml'
+        //             def updated = file.replaceAll(/tag: .*/, "tag: ${IMAGE_TAG}")
+        //             writeFile file: 'charts/ekstest-app/values.yaml', text: updated
+        //             sh '''
+        //             git config --global user.email "you@example.com"
+        //             git config --global user.name "Jenkins"
+        //             git add charts/ekstest-app/values.yaml
+        //             git commit -m "Update image tag to ${IMAGE_TAG}"
+        //             git push origin master
+        //             '''
+        //         }
+        //     }
+        // }
         stage('Update Helm values.yaml') {
             steps {
                 script {
                     def file = readFile 'charts/ekstest-app/values.yaml'
                     def updated = file.replaceAll(/tag: .*/, "tag: ${IMAGE_TAG}")
                     writeFile file: 'charts/ekstest-app/values.yaml', text: updated
-                    sh '''
-                    git config --global user.email "you@example.com"
-                    git config --global user.name "Jenkins"
-                    git add charts/ekstest-app/values.yaml
-                    git commit -m "Update image tag to ${IMAGE_TAG}"
-                    git push origin master
-                    '''
+
+                    withCredentials([usernamePassword(
+                        credentialsId: 'github-token',
+                        usernameVariable: 'GIT_USERNAME',
+                        passwordVariable: 'GIT_PASSWORD'
+                    )]) {
+                        sh '''
+                        git config user.email "you@example.com"
+                        git config user.name "Jenkins"
+                        git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/iamminjae/ekstest.git
+                        git add charts/ekstest-app/values.yaml
+                        git commit -m "Update image tag to ${IMAGE_TAG}" || echo "No changes to commit"
+                        git push origin master
+                        '''
+                    }
                 }
             }
         }
