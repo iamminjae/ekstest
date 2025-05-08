@@ -1,7 +1,7 @@
 # values.yaml
 image:
   repository: 618465462717.dkr.ecr.ap-northeast-2.amazonaws.com/ekstest-app
-  tag: v10
+  tag: v11
 
 replicaCount: 2
 
