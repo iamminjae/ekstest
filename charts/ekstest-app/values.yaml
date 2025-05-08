@@ -1,0 +1,11 @@
+# values.yaml
+image:
+  repository: 618465462717.dkr.ecr.ap-northeast-2.amazonaws.com/ekstest-app
+  tag: latest
+
+replicaCount: 1
+
+service:
+  name: ekstest-app
+  type: ClusterIP
+  port: 8080
