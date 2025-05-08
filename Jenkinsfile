@@ -2,11 +2,12 @@ pipeline {
     agent any
 
     environment {
+        GIT_REPO = 'https://github.com/iamminjae/ekstest.git'
         AWS_REGION = 'ap-northeast-2'
         ECR_REGISTRY = '618465462717.dkr.ecr.ap-northeast-2.amazonaws.com'
         ECR_REPOSITORY = 'ekstest-app'
+        ECR_REPO = "${ECR_REGISTRY}/${ECR_REPOSITORY}"
         IMAGE_TAG = "v${BUILD_NUMBER}"
-        GIT_REPO = 'https://github.com/iamminjae/ekstest.git'
     }
 
     stages {
