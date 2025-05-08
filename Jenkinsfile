@@ -118,16 +118,6 @@ pipeline {
                     '''
                 }
             }
-            script {
-                // ArgoCD 로그인
-                sh '''
-                argocd login <ARGOCD_SERVER> --username <ARGOCD_USERNAME> --password <ARGOCD_PASSWORD> --insecure
-                '''
-                // 앱 동기화
-                sh '''
-                argocd app sync ekstest-app
-                '''
-            }
         }
     }
 }
