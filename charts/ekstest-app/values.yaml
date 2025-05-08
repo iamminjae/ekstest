@@ -7,5 +7,5 @@ replicaCount: 1
 
 service:
   name: ekstest-app
-  type: ClusterIP
+  type: LoadBalancer #ClusterIP
   port: 8080
