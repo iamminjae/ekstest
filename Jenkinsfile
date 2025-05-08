@@ -8,6 +8,9 @@ pipeline {
         ECR_REPOSITORY = 'ekstest-app'
         ECR_REPO = "${ECR_REGISTRY}/${ECR_REPOSITORY}"
         IMAGE_TAG = "v${BUILD_NUMBER}"
+        ARGOCD_SERVER = "a70cc747b77414cdd90a94151ceab99c-1846804598.ap-northeast-2.elb.amazonaws.com"
+        ARGOCD_USERNAME = "admin"
+        ARGOCD_PASSWORD = "dmzCffGVFddZIC3w"
     }
 
     stages {
@@ -100,7 +103,17 @@ pipeline {
         }
 
         stage('Deploy via ArgoCD') {
-            steps {
+            // steps {
+            //     sh '''
+            //     argocd app sync ekstest-app
+            //     '''
+            // }
+            script {
+                // ArgoCD 로그인
+                sh '''
+                argocd login <ARGOCD_SERVER> --username <ARGOCD_USERNAME> --password <ARGOCD_PASSWORD> --insecure
+                '''
+                // 앱 동기화
                 sh '''
                 argocd app sync ekstest-app
                 '''
