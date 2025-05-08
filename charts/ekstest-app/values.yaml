@@ -3,7 +3,7 @@ image:
   repository: 618465462717.dkr.ecr.ap-northeast-2.amazonaws.com/ekstest-app
   tag: v7
 
-replicaCount: 1
+replicaCount: 2
 
 service:
   name: ekstest-app
