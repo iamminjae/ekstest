@@ -27,17 +27,33 @@ pipeline {
             }
         }
 
+        // stage('Build & Push Image using Kaniko') {
+        //     steps {
+        //         sh '''
+        //         mkdir -p /kaniko/.docker
+        //         echo "{\"credsStore\":\"ecr-login\"}" > /kaniko/.docker/config.json
+
+        //         /kaniko/executor \
+        //           --dockerfile=Dockerfile \
+        //           --context=. \
+        //           --destination=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        //         '''
+        //     }
+        // }
         stage('Build & Push Image using Kaniko') {
             steps {
-                sh '''
-                mkdir -p /kaniko/.docker
-                echo "{\"credsStore\":\"ecr-login\"}" > /kaniko/.docker/config.json
-
-                /kaniko/executor \
-                  --dockerfile=Dockerfile \
-                  --context=. \
-                  --destination=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-                '''
+                script {
+                    sh '''
+                    docker run --rm \
+                    -v `pwd`:/workspace \
+                    -v $HOME/.aws:/root/.aws:ro \
+                    gcr.io/kaniko-project/executor:latest \
+                    --dockerfile=Dockerfile \
+                    --context=dir:///workspace \
+                    --destination=$ECR_REPO:$IMAGE_TAG \
+                    --insecure --skip-tls-verify
+                    '''
+                }
             }
         }
 
